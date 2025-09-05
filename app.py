@@ -21,27 +21,35 @@ def identify_c_products(df_products: pd.DataFrame, df_orders: pd.DataFrame):
     if df_products.empty:
         return set()
     df_products['created_at'] = pd.to_datetime(df_products['created_at'])
-    df_orders['created_at'] = pd.to_datetime(df_orders['created_at'])
+
+    if df_orders.empty:
+        df_orders = pd.DataFrame(columns=['offer_id', 'created_at', 'status', 'canonical_sku'])
+    else:
+        df_orders['created_at'] = pd.to_datetime(df_orders['created_at'])
+        if 'canonical_sku' not in df_orders.columns:
+            df_orders = df_orders.merge(
+                df_products[['offer_id', 'canonical_sku']], on='offer_id', how='left'
+            )
+
     oldest = df_products.groupby('canonical_sku')['created_at'].min().reset_index()
     cutoff = pd.Timestamp.today() - pd.DateOffset(months=5)
     old_skus = set(oldest[oldest['created_at'] < cutoff]['canonical_sku'])
 
-    orders_2025 = df_orders[(df_orders['created_at'].dt.year == 2025)]
-    if not orders_2025.empty:
-        orders_2025 = orders_2025.merge(df_products[['offer_id','canonical_sku']], on='offer_id', how='left')
-        skus_orders_2025 = set(orders_2025['canonical_sku'].dropna())
-    else:
-        skus_orders_2025 = set()
+    orders_2025 = df_orders[df_orders['created_at'].dt.year == 2025]
+    skus_orders_2025 = set(orders_2025['canonical_sku'].dropna())
 
     delivered = df_orders[df_orders['status'] == 'Доставлен']
-    if not delivered.empty:
-        delivered = delivered.merge(df_products[['offer_id','canonical_sku']], on='offer_id', how='left')
-        skus_delivered = set(delivered['canonical_sku'].dropna())
-    else:
-        skus_delivered = set()
+    skus_delivered = set(delivered['canonical_sku'].dropna())
 
-    reviews = df_products.groupby('canonical_sku').agg({'reviews_count':'sum','rating_value':'sum'})
-    zero_reviews = set(reviews[(reviews['reviews_count']==0) & (reviews['rating_value']==0)].index)
+    reviews = df_products.groupby('canonical_sku').agg({
+        'reviews_count': 'sum',
+        'rating_value': 'sum',
+    })
+    zero_reviews = set(
+        reviews[
+            (reviews['reviews_count'] == 0) & (reviews['rating_value'] == 0)
+        ].index
+    )
 
     c_skus = old_skus - skus_orders_2025 - skus_delivered
     c_skus = c_skus & zero_reviews
