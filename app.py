@@ -59,6 +59,11 @@ def compute_abc(account_id=None):
     products = load_table('dim_product')
     orders = load_table('fact_orders')
     accounts = load_table('dim_account')
+    # Ensure revenue is numeric to avoid type issues during aggregation
+    if 'revenue' in orders.columns:
+        orders['revenue'] = pd.to_numeric(orders['revenue'], errors='coerce').fillna(0)
+    else:
+        orders['revenue'] = 0
     if account_id:
         products = products[products['account_id']==int(account_id)]
         orders = orders[orders['account_id']==int(account_id)]
