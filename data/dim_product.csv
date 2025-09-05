@@ -1,0 +1,10 @@
+account_id,offer_id,canonical_sku,product_id,title,family,category_ozon,brand,cost,stock,created_at,status,rating_value,reviews_count
+2693456,KKV144,JUK144,1490681333,iPhone 15 Pro,iPhone 15 Pro,,Apple,82500,0,2025-03-13 11:25:54,Готов к продаже,0,0
+2693456,KKV68,JUK68,1490681343,iPhone 15 Pro Max,iPhone 15 Pro Max,,Apple,116500,0,2025-03-13 11:25:54,Готов к продаже,0,0
+2693456,KKV67,JUK67,1490681344,iPhone 15 Pro Max,iPhone 15 Pro Max,,Apple,118500,0,2025-03-13 11:25:54,Готов к продаже,0,0
+2693456,KKV1260,JUK1260,1490681348,S24_Ultra,S24_Ultra,,Samsung,72700,138,2025-03-13 11:25:54,Продается,0,0
+2693456,KKV319,JUK319,1490681350,iPhone 16 Pro,iPhone 16 Pro,,Apple,124500,130,2025-03-13 11:25:55,Продается,0,0
+2693456,KKV52,JUK52,1490681353,iPhone 15 Pro,iPhone 15 Pro,,Apple,86500,0,2025-03-13 11:25:55,Готов к продаже,0,0
+2693456,KKV461,JUK461,1490681354,iPhone13,iPhone13,,Apple,52200,0,2025-03-13 11:25:55,Готов к продаже,0,0
+2693456,KKV31,JUK31,1490681355,iPhone 15,iPhone 15,,Apple,51700,143,2025-03-13 11:25:55,Продается,0,0
+2693456,KKV40,JUK40,1490681357,iPhone15 Plus,iPhone15 Plus,,Apple,53000,130,2025-03-13 11:25:55,Продается,0,0
